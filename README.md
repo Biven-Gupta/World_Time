@@ -2,6 +2,11 @@
 
 World Time App Flutter project.
 
+API : http://worldtimeapi.org/api/timezone
+API Extensions : http://worldtimeapi.org/api/timezone/:area/:location[/:region]
+
+#[/:region] : It is not necessary for all locations.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
