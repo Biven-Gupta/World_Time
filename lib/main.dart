@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:world_time/pages/loading.dart';
 import 'package:world_time/pages/location.dart';
 
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 void main() {
-  runApp(MaterialApp(
-    initialRoute: '/',
-    routes: {
-      '/': (context) => Loading(),
-      //'/home': (context) => Home(),
-      '/location': (context) => Location(),
-    },
-  ));
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      navigatorObservers: [routeObserver],
+      routes: {
+        '/': (context) => Loading(),
+        //'/home': (context) => Home(),
+        '/location': (context) => Location(),
+      },
+    ),
+  );
 }
 
 /*

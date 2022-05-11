@@ -5,10 +5,10 @@ import 'package:intl/intl.dart';
 
 class WorldTime {
   String location;
-  String? time = null;
+  String? time;
   String flag;
   String url;
-  bool? isDay = null;
+  bool? isDay;
 
   WorldTime({required this.location, required this.flag, required this.url});
 
@@ -22,7 +22,9 @@ class WorldTime {
       debugPrint('is DateTime ${data['datetime'] is DateTime}');
       debugPrint('is DateTime ${data['datetime'].toString()}');*/
       String datetime = data['datetime'].toString();
-      String offsetHour = data['utc_offset'].toString().substring(1, 3);
+      String offsetHour = data['utc_offset'].toString().substring(0, 3);
+      print(data['datetime']);
+      print(offsetHour);
       String offsetMin = data['utc_offset'].toString().substring(4, 6);
       DateTime now = DateTime.parse(datetime);
       now = now.add(Duration(

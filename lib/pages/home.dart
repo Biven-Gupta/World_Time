@@ -1,45 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:world_time/main.dart';
+import 'package:world_time/model/model.dart';
 
 class Home extends StatefulWidget {
-  final String location;
-  final String time;
-  final String flag;
-  final bool isDay;
-
-  const Home(
-      {Key? key,
-      required this.location,
-      required this.flag,
-      required this.time,
-      required this.isDay})
-      : super(key: key);
+  const Home({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with RouteAware {
+  ModelClass model = ModelClass();
+
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    widget.location;
-    widget.flag;
-    widget.time;
-    widget.isDay;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    String bgImage = widget.isDay ? 'assets/Day.png' : 'assets/night.png';
     return Scaffold(
       backgroundColor:
-          widget.isDay ? const Color(0xfffbc758) : const Color(0xFF434BB1),
+          model.isDay ? const Color(0xfffbc758) : const Color(0xFF434BB1),
       body: SafeArea(
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(bgImage),
+              image: AssetImage(
+                  model.isDay ? 'assets/Day.png' : 'assets/night.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -48,7 +45,7 @@ class _HomeState extends State<Home> {
             child: Column(
               children: <Widget>[
                 Text(
-                  widget.time,
+                  model.time,
                   style: TextStyle(
                     fontSize: 66.0,
                     color: Colors.grey[200],
@@ -59,12 +56,6 @@ class _HomeState extends State<Home> {
                   onPressed: () async {
                     dynamic result =
                         await Navigator.pushNamed(context, '/location');
-                    setState(() {
-                      widget.isDay;
-                      widget.time;
-                      widget.location;
-                      widget.flag;
-                    });
                     //Location();
                   },
                   label: Text(
@@ -83,16 +74,14 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CircleAvatar(
-                      backgroundColor: widget.isDay
+                      backgroundColor: model.isDay
                           ? const Color(0xFFFBA53B)
                           : const Color(0xFF635DC5),
-                      child: Image.asset(
-                        widget.flag,
-                      ),
+                      child: Image.asset(model.flag),
                     ),
                     const SizedBox(width: 20.0),
                     Text(
-                      widget.location,
+                      model.location,
                       style: TextStyle(
                         fontSize: 32.0,
                         letterSpacing: 2.0,

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:world_time/model/model.dart';
 import 'package:world_time/services/world_time.dart';
 
 import 'home.dart';
@@ -17,12 +20,13 @@ class _LoadingState extends State<Loading> {
     WorldTime timeInstance = WorldTime(
         location: 'Kolkata', flag: 'assets/india.png', url: 'Asia/Kolkata');
     await timeInstance.getTime();
+    ModelClass model = ModelClass();
+    model.isDay = timeInstance.isDay!;
+    model.location = timeInstance.location;
+    model.flag = timeInstance.flag;
+    model.time = timeInstance.time!;
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return Home(
-          location: timeInstance.location,
-          flag: timeInstance.flag,
-          time: timeInstance.time!,
-          isDay: timeInstance.isDay!);
+      return const Home();
     }));
   }
 
@@ -30,7 +34,8 @@ class _LoadingState extends State<Loading> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    setupworldtime();
+    Timer(const Duration(seconds: 5), () => setupworldtime());
+
     //print('statement');
   }
 
